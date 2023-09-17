@@ -9,7 +9,7 @@ gauth = GoogleAuth()
 # Still need verifcation for the first time. Ignore the warning in cmd.
 
 # Uncomment the next line if you have your credential token detail save in a text file of your local machine
-gauth.LoadCredentialsFile("/var/www/html/itflow/creds.txt") #change the parameter with your path to the text file have credential token
+gauth.LoadCredentialsFile("/path/to/your/creds.txt") #change the parameter with your path to the text file have credential token
 if gauth.credentials is None:
     # Authenticate if they're not there
     gauth.LocalWebserverAuth()
@@ -20,17 +20,17 @@ else:
     # Initialize the saved creds
     gauth.Authorize()
 # Save the current credentials to a file
-gauth.SaveCredentialsFile("/var/www/html/itflow/creds.txt") #change the parameter with your path to where you want to save the credential token (basically same as line 12)
+gauth.SaveCredentialsFile("/path/to/your/creds.txt") #change the parameter with your path to where you want to save the credential token (basically same as line 12)
 drive = GoogleDrive(gauth)
 
 now = datetime.now()
 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
-directory_path = '/var/lib/mysql/itflow'  #path of the folder you want to upload
-destination_path = '~/Downloads'  #zip location
-archive_name = 'db'
+directory_path = 'path/to/your/folder'  #path of the folder you want to upload
+destination_path = 'path/to/where/the/zip/go'  #zip location
+archive_name = 'folder'
 
-os.chmod('/var/lib/mysql/itflow', 0o777)
+os.chmod('path/to/your/folder', 0o777)
 
 # Provide the format 'zip' when calling make_archive
 shutil.make_archive(
@@ -39,21 +39,21 @@ shutil.make_archive(
     directory_path
 )
 
-os.chmod('~/Downloads/db.zip', 0o777)
+os.chmod('/path/to/your/zip/folder.zip', 0o777)
 
-file = drive.CreateFile({'title': 'DB - ' + dt_string + '.zip', 'parents': [{'id': '1XBNScG51PFP3bYOUbJ9uZCBsh_o6sU5B'}]}) #id is the last part of your google drive url 
-file.SetContentFile('~/Downloads/db.zip')
+file = drive.CreateFile({'title': 'fileName' + dt_string + '.zip', 'parents': [{'id': ''}]}) #id is the last part of your google drive url 
+file.SetContentFile('/path/to/your/zip/folder.zip')
 file.Upload()
 
 
 
 
 #The second folder, pretty much the same!
-directory_path2 = '/var/www/html/itflow/uploads/expenses'  # receipts folder path
-destination_path2 = '~/Downloads'  # db zip location
-archive_name2 = 'receipts'
+directory_path2 = '/path/to/your/second/folder'  #folder2 path
+destination_path2 = '/path/to/where/you/want/to/place/the/zip'  # db zip location
+archive_name2 = 'folder2'
 
-os.chmod('/var/www/html/itflow/uploads/expenses', 0o777)
+os.chmod('/path/to/your/second/folder', 0o777)
 
 # Provide the format 'zip' when calling make_archive
 shutil.make_archive(
@@ -62,9 +62,8 @@ shutil.make_archive(
     directory_path2
 )
 
-os.chmod('~/Downloads/receipts.zip', 0o777)
+os.chmod('/path/to/your/second/zip/folder/folder2.zip', 0o777)
 
-file2 = drive.CreateFile({'title': 'receipts - ' + dt_string + '.zip', 'parents': [{'id': '1XBNScG51PFP3bYOUbJ9uZCBsh_o6sU5B'}]})
-file2.SetContentFile('~/Downloads/receipts.zip')
+file2 = drive.CreateFile({'title': 'receipts - ' + dt_string + '.zip', 'parents': [{'id': ''}]})
+file2.SetContentFile('/path/to/your/second/zip/folder/folder2.zip')
 file2.Upload()
-
