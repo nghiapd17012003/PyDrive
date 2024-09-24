@@ -1,4 +1,4 @@
-# PyDrive
+# Zip with PyDrive
 Python script for using PyDrive.<br />
 What this script does is zip the a folder with provided path, and upload it to your Google drive.
 
